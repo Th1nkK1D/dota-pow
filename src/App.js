@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import './App.css';
 
+import HeroSelecter from './HeroSelecter/HeroSelecter';
+
 class App extends Component {
   state = {
     heroes: []
@@ -12,13 +14,11 @@ class App extends Component {
       this.setState({ heroes: res.data });
     })
   }
-
+  
   render() {
     return (
       <div className="App">
-        <ol>
-          { this.state.heroes.map( hero => <li key={hero.id}>{hero.localized_name}</li>)}
-        </ol>
+        <HeroSelecter></HeroSelecter>
       </div>
     );
   }
