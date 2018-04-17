@@ -6,21 +6,13 @@ class HeroSelecter extends Component {
     selectedHero: undefined,
   }
 
-  constructor() {
-    super()
-    this.handleChange = this.handleChange.bind(this)
-  }
-
-  handleChange(e) {
-    this.setState({selectedHero: e.target.value})
-  }
-
   render() {
     return (
       <div className="hero-selecter">
-        {this.state.selectedHero && this.state.selectedHero}
+        {this.props.value && this.props.heroes.find(h => h.id === this.props.value).localized_name}
         <br/>
-        <select name="herolist" onChange={this.handleChange}>
+        <select name="herolist" id={this.props.id} onChange={this.props.onChange}>
+          <option value={undefined}>-</option>
           {this.props.heroes.map(hero => <option key={hero.id} value={hero.id}>{hero.localized_name}</option>)}
         </select>
       </div>
