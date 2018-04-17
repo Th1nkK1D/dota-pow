@@ -6,7 +6,8 @@ import HeroSelecter from './HeroSelecter/HeroSelecter';
 
 class App extends Component {
   state = {
-    heroes: []
+    heroes: [],
+    allies: [undefined,undefined,undefined,undefined,undefined]
   };
 
   componentDidMount() {
@@ -18,7 +19,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <HeroSelecter></HeroSelecter>
+        <HeroSelecter heroes={this.state.heroes}></HeroSelecter>
       </div>
     );
   }
