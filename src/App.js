@@ -73,35 +73,41 @@ class App extends Component {
   
   render() {
     return (
-      <div className="App">
-      <h1>Dota^</h1>
-      <h3>Opponent Heroes:</h3>
+      <div className="App container mx-auto text-center flex flex-col">
+        <div className="flex-1 py-4">
+          <h1 className="text-red-light text-5xl text-light">DOTA^</h1>
+          <h3 className="text-red-light text-xs">dota-pow : Dota 2 picking assistance</h3>
+        </div>
+        <div className="flex-1 py-4 flex flex-row justify-center">
         {
           this.state.foes.map((hero, index) => 
-            <HeroSelecter heroes={this.state.heroes} key={index} id={index} value={hero} onChange={this.handleFoeChange}></HeroSelecter>
+            <HeroSelecter className="flex-1" heroes={this.state.heroes} key={index} id={index} value={hero} onChange={this.handleFoeChange}></HeroSelecter>
           )
         }
-        <h3>Suggestions:</h3>
-        <ol>
-        {
-          this.state.suggestions.map((hero,hi) => 
-            <li key={hero.id}>
-              {this.state.heroes.find(h => h.id === hero.id).localized_name} | 
-              {this.state.matchups.map((matchup, mi) => 
-                <span key={mi}> {
-                  matchup !== undefined 
-                    ? (matchup.findIndex(m => m.hero_id === hero.id) >= 0
-                      ? matchup.find(m => m.hero_id === hero.id).rating
-                      : "?"
-                    ) 
-                    : " "
-                } | </span>
-              )}
-              overall: {hero.avg}
-            </li>
-          )
-        }
-        </ol>
+        </div>
+        <div className="flex-1 py-4">
+          <h3>Suggestions:</h3>
+          <ol>
+          {
+            this.state.suggestions.map((hero,hi) => 
+              <li key={hero.id}>
+                {this.state.heroes.find(h => h.id === hero.id).localized_name} | 
+                {this.state.matchups.map((matchup, mi) => 
+                  <span key={mi}> {
+                    matchup !== undefined 
+                      ? (matchup.findIndex(m => m.hero_id === hero.id) >= 0
+                        ? matchup.find(m => m.hero_id === hero.id).rating
+                        : "?"
+                      ) 
+                      : " "
+                  } | </span>
+                )}
+                overall: {hero.avg}
+              </li>
+            )
+          }
+          </ol>
+        </div>
       </div>
     );
   }
