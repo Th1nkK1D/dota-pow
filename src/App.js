@@ -65,7 +65,7 @@ class App extends Component {
         return {
           foes: prev.foes,
           matchups: prev.matchups,
-          suggestions: suggestions.map(s => ({id: s.id, avg: s.sum/count})).sort((a,b) => b.avg-a.avg).slice(0,5)
+          suggestions: suggestions.map(s => ({id: s.id, avg: s.sum/count})).sort((a,b) => b.avg-a.avg).slice(0,8)
         }
       })
     })
