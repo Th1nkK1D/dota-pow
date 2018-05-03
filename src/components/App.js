@@ -97,14 +97,16 @@ class App extends Component {
   
   render() {
     return (
-      <div className="container mx-auto text-center flex flex-col justify-center">
+      <div className="container mx-auto p-4 text-center flex flex-col justify-center">
+        {/* Header */}
         <div className="flex-1 py-4">
           <h1 className="text-red-light font-light" style={{fontSize: '5em'}}>DOTA^</h1>
           <h3 className="text-red-light text-sm">dota-pow : Dota 2 picking assistance</h3>
         </div>
-        <div className="flex-1 py-2 flex flex-row justify-center">
+        {/* Enermy picks */}
+        <div className="flex-1 py-2 flex m-auto" style={{width: '48rem'}}>
           <div className="w-32 flex flex-col relative diag text-sm text-grey">
-            <div className="absolute pin-t pin-r p-1">Enermy pick</div>
+            <div className="absolute pin-t pin-r p-1">Enermy picks</div>
             <div className="absolute pin-b pin-l p-1">Suggestion</div>
           </div>
           {
@@ -113,6 +115,14 @@ class App extends Component {
             )
           }
         </div>
+        {/* Black body */}
+        { 
+          this.state.suggestions.length === 0 &&
+          <div className="flex-1 py-2 m-auto h-48 flex flex-col justify-center" style={{width: '48rem'}}>
+            <p className="text-xl text-grey">Please select enermy heroes above</p>
+          </div>
+        }
+        {/* Suggestion */}
         <div className="flex-1 flex flex-col m-auto" style={{width: '48rem'}}>
           {
             this.state.suggestions.map(hero => 
@@ -125,6 +135,12 @@ class App extends Component {
             )
           }
           
+        </div>
+        <div className="text-center text-sm opacity-50 pt-4">
+          <a className="no-underline text-white hover:underline" target="_blank" rel="noopener noreferrer" href="https://github.com/Th1nkK1D/dota-pow">Th1nkK1D</a> - &nbsp;
+          <a className="no-underline text-white hover:underline" target="_blank" rel="noopener noreferrer" href="https://reactjs.org/">React</a> + &nbsp;
+          <a className="no-underline text-white hover:underline" target="_blank" rel="noopener noreferrer" href="https://tailwindcss.com/">Tailwind</a> + &nbsp;
+          <a className="no-underline text-white hover:underline" target="_blank" rel="noopener noreferrer" href="https://docs.opendota.com/">OpenDota API</a>
         </div>
       </div>
     );
