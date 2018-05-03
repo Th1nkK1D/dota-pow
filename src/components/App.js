@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import './App.css';
 
-import HeroSelecter from './HeroSelecter/HeroSelecter';
+import HeroSelecter from './HeroSelecter';
+import HeroSuggest from './HeroSuggest';
 
 class App extends Component {
   constructor() {
@@ -87,26 +87,17 @@ class App extends Component {
         </div>
         <div className="flex-1 py-4">
           <h3>Suggestions:</h3>
-          <ol>
           {
             this.state.suggestions.map((hero,hi) => 
-              <li key={hero.id}>
-                {this.state.heroes.find(h => h.id === hero.id).localized_name} | 
-                {this.state.matchups.map((matchup, mi) => 
-                  <span key={mi}> {
-                    matchup !== undefined 
-                      ? (matchup.findIndex(m => m.hero_id === hero.id) >= 0
-                        ? matchup.find(m => m.hero_id === hero.id).rating
-                        : "?"
-                      ) 
-                      : " "
-                  } | </span>
-                )}
-                overall: {hero.avg}
-              </li>
+              <HeroSuggest 
+                key={hero.id} 
+                hero={this.state.heroes.find(h => h.id === hero.id)} 
+                matchups={this.state.matchups.map(matchup => matchup ? matchup.find(m => m.hero_id === hero.id) : undefined)}
+                overall={hero.avg}>
+              </HeroSuggest>
             )
           }
-          </ol>
+          
         </div>
       </div>
     );
