@@ -25,50 +25,74 @@ class App extends Component {
     })
   }
 
+  getSuggestions(matchup) {
+    if (matchup.findIndex(m => m) >= 0) {
+      let suggestions = this.state.heroes.map(h => ({id: h.id, sum: 0}))
+
+      // Calculate suggestion
+      let count = 0
+
+      for (let h = 0; h < matchup.length; h++) {
+        if (matchup[h] !== undefined) {
+          for (let m = 0; m < matchup[h].length; m++) {
+            let target = suggestions.findIndex(s => s.id === matchup[h][m].hero_id)
+
+            if (target >= 0) {
+              suggestions[target].sum += matchup[h][m].rating
+            } else {
+              suggestions[target].sum += 0.5
+            }
+          }
+
+          count++
+        }
+      }
+
+      return suggestions.map(s => ({id: s.id, avg: s.sum/count})).sort((a,b) => b.avg-a.avg).slice(0,8)
+    } else {
+      return []
+    }
+  
+  }
+
   // Handle Foe change
   handleFoeChange(e) {
     const target = e.target
 
-    // Get matchup data
-    axios.get("https://api.opendota.com/api/heroes/"+target.value+"/matchups").then(res => {
-      // Filter, calculate rating and sort match up
-      let matchup = res.data.filter(m => m.games_played >= 5)
-        .map(m => {m.rating = 1-m.wins/m.games_played; return m})
-        .sort((a,b) => b.rating-a.rating)
+    if (target.value !== '-') {
+      // Get matchup data
+      axios.get("https://api.opendota.com/api/heroes/"+target.value+"/matchups").then(res => {
+        // Filter, calculate rating and sort match up
+        let matchup = res.data.filter(m => m.games_played >= 5)
+          .map(m => {m.rating = 1-m.wins/m.games_played; return m})
+          .sort((a,b) => b.rating-a.rating)
 
-      let suggestions = this.state.heroes.map(h => ({id: h.id, sum: 0}))
 
-      // Update state
-      this.setState((prev) => {
-        prev.foes[target.id] = parseInt(target.value,10)
-        prev.matchups[target.id] = matchup
+        // Update state
+        this.setState(prev => {
+          prev.foes[target.id] = parseInt(target.value,10)
+          prev.matchups[target.id] = matchup
 
-        // Calculate suggestion
-        let count = 0
-
-        for (let h = 0; h < this.state.matchups.length; h++) {
-          if (this.state.matchups[h] !== undefined) {
-            for (let m = 0; m < this.state.matchups[h].length; m++) {
-              let target = suggestions.findIndex(s => s.id === this.state.matchups[h][m].hero_id)
-
-              if (target >= 0) {
-                suggestions[target].sum += this.state.matchups[h][m].rating
-              } else {
-                suggestions[target].sum += 0.5
-              }
-            }
-
-            count++
+          return {
+            foes: prev.foes,
+            matchups: prev.matchups,
+            suggestions: this.getSuggestions(prev.matchups)
           }
-        }
+        })
+      })
+    } else {
+      // remove data
+      this.setState(prev => {
+        prev.foes[target.id] = undefined
+        prev.matchups[target.id] = undefined
 
         return {
           foes: prev.foes,
           matchups: prev.matchups,
-          suggestions: suggestions.map(s => ({id: s.id, avg: s.sum/count})).sort((a,b) => b.avg-a.avg).slice(0,8)
+          suggestions: this.getSuggestions(prev.matchups)
         }
       })
-    })
+    }
   }
   
   render() {
@@ -91,7 +115,7 @@ class App extends Component {
         </div>
         <div className="flex-1 flex flex-col m-auto" style={{width: '48rem'}}>
           {
-            this.state.suggestions.map((hero,hi) => 
+            this.state.suggestions.map(hero => 
               <HeroSuggest 
                 key={hero.id} 
                 hero={this.state.heroes.find(h => h.id === hero.id)} 

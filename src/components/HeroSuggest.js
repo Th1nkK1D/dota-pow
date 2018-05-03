@@ -14,7 +14,7 @@ class HeroSuggest extends Component {
           <div className="absolute p-1">{Math.round(this.props.overall*100)}%</div>
           <div className="absolute pin-b p-1 truncate">{this.props.hero.localized_name}</div>
         </div>
-        {this.props.matchups.map(match => match !== undefined ? <MatchupChart match={match}></MatchupChart> : <div className="h-16 w-32"></div>)}
+        {this.props.matchups.map((match,mi) => match !== undefined ? <MatchupChart key={mi} match={match}></MatchupChart> : <div className="h-16 w-32" key={mi}></div>)}
       </div>
     );
   }
