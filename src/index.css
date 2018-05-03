@@ -4547,6 +4547,17 @@ body {
   color: white;
 }
 
+.diag:after {
+  content: "";
+  position: absolute;
+  border-top: 1px solid #8a8a8a;
+  width: 8.9rem;
+  -webkit-transform: rotate(28deg);
+          transform: rotate(28deg);
+  -webkit-transform-origin: 0% 0%;
+          transform-origin: 0% 0%;
+}
+
 @media (min-width: 576px) {
   .sm\:list-reset {
     list-style: none;

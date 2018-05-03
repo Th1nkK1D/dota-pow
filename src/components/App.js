@@ -73,20 +73,23 @@ class App extends Component {
   
   render() {
     return (
-      <div className="App container mx-auto text-center flex flex-col">
+      <div className="container mx-auto text-center flex flex-col justify-center">
         <div className="flex-1 py-4">
-          <h1 className="text-red-light text-5xl text-light">DOTA^</h1>
-          <h3 className="text-red-light text-xs">dota-pow : Dota 2 picking assistance</h3>
+          <h1 className="text-red-light font-light" style={{fontSize: '5em'}}>DOTA^</h1>
+          <h3 className="text-red-light text-sm">dota-pow : Dota 2 picking assistance</h3>
         </div>
-        <div className="flex-1 py-4 flex flex-row justify-center">
-        {
-          this.state.foes.map((hero, index) => 
-            <HeroSelecter className="flex-1" heroes={this.state.heroes} key={index} id={index} value={hero} onChange={this.handleFoeChange}></HeroSelecter>
-          )
-        }
+        <div className="flex-1 py-2 flex flex-row justify-center">
+          <div className="w-32 flex flex-col relative diag text-sm text-grey">
+            <div className="absolute pin-t pin-r p-1">Enermy pick</div>
+            <div className="absolute pin-b pin-l p-1">Suggestion</div>
+          </div>
+          {
+            this.state.foes.map((hero, index) => 
+              <HeroSelecter className="flex-1" heroes={this.state.heroes} key={index} id={index} value={hero} onChange={this.handleFoeChange}></HeroSelecter>
+            )
+          }
         </div>
-        <div className="flex-1 py-4">
-          <h3>Suggestions:</h3>
+        <div className="flex-1 flex flex-col m-auto" style={{width: '48rem'}}>
           {
             this.state.suggestions.map((hero,hi) => 
               <HeroSuggest 

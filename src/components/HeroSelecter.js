@@ -7,7 +7,7 @@ class HeroSelecter extends Component {
 
   render() {
     return (
-      <div className="bg-black bg-cover bg-center h-16 flex"
+      <div className="bg-black bg-cover bg-center h-16 flex shadow"
         style={{
           backgroundImage: this.props.value ? 'url(https://api.opendota.com'+this.props.heroes.find(h => h.id === this.props.value).img+')' : 'none',
           backgroundBlendMode: 'color-dodge'
